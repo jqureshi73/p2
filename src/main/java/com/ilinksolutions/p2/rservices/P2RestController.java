@@ -22,6 +22,11 @@ public class P2RestController
 {
 	Logger logger = LoggerFactory.getLogger(P2RestController.class);
 	
+	@GetMapping("/serviceCheck")
+	public String serviceCheck() {
+		return "P2 Service is Running...";
+	}
+	
     @GetMapping("/getmsg/{id}")
     public ResponseEntity<UKVisaMessage> readEntry(@PathVariable String id)
     {
