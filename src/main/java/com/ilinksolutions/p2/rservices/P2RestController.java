@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 
 import com.ilinksolutions.p2.domains.UKVisaMessage;
 import com.ilinksolutions.p2.exceptions.EntityNotFoundException;
+import com.ilinksolutions.p2.exceptions.RequiredFieldMissingException;
 import com.ilinksolutions.p2.bservices.UKVisaService;
 
 import org.springframework.http.ResponseEntity;
@@ -33,18 +34,23 @@ public class P2RestController
     {
     	logger.info("P2RestController: readEntry: Begin.");
     	logger.info("P2RestController: readEntry: Path Variable: " + id);
-        UKVisaService service = new UKVisaService();
-        UKVisaMessage returnValue = service.getEntry(new Integer(id).intValue());
-        if (returnValue == null || returnValue.getFirstName() == null)
-        {
-        	logger.info("P2RestController: readEntry: returnValue: NULL");
+    	try {
+	        UKVisaService service = new UKVisaService();
+	        UKVisaMessage returnValue = service.getEntry(new Integer(id).intValue());
+	        if (returnValue == null || returnValue.getFirstName() == null)
+	        {
+	        	logger.info("P2RestController: readEntry: returnValue: NULL");
+	            throw new EntityNotFoundException(Integer.valueOf(id));
+	        }
+	        else
+	        {
+	            logger.info("P2RestController: readEntry: returnValue: " + returnValue.toString());
+	            return ResponseEntity.ok(returnValue);
+	        }
+    	} catch (Exception e) {
+    		logger.error("P2RestController: readEntry: " + e);
             throw new EntityNotFoundException(Integer.valueOf(id));
-        }
-        else
-        {
-            logger.info("P2RestController: readEntry: returnValue: " + returnValue.toString());
-            return ResponseEntity.ok(returnValue);
-        }
+    	}
     }
     
     @PostMapping("/savemsg")
@@ -52,6 +58,9 @@ public class P2RestController
     {
     	logger.info("registerMessage: registerMessage: Begin.");
     	logger.info("registerMessage: registerMessage: Transform: " + message.toString());
+    	if (message != null && (message.getId() == null || message.getFirstName() == null || message.getLastName() == null)) {
+    		getRequireFeilds(message);
+    	}
     	UKVisaService service = new UKVisaService();
     	UKVisaMessage returnValue = service.addEntry(message);
     	if (returnValue == null)
@@ -66,11 +75,25 @@ public class P2RestController
             return ResponseEntity.created(uri).body(returnValue);
         }
     }
+
+	private void getRequireFeilds(UKVisaMessage message) {
+		String msg = message.getId() == null ? "id" : "";
+		msg += (msg.length() >0 ? ", " : "") + message.getFirstName() == null ? "firstName" : "";
+		msg += (msg.length() >0 ? ", " : "") + message.getLastName() == null ? "lastName" : "";
+		logger.error("Following Required Fields are Missing: " + msg);
+		throw new RequiredFieldMissingException(msg);
+	}
     
     @PutMapping("/updatemsg/{id}")
     public ResponseEntity<UKVisaMessage> update(@RequestBody UKVisaMessage message, @PathVariable int id)
     {
-        UKVisaService service = new UKVisaService();
+    	String msg = message.getFirstName() == null ? "firstName" : "";
+		msg += (msg.length() >0 ? ", " : "") + message.getLastName() == null ? "lastName" : "";
+		if (msg.length() > 0) {
+			logger.error("Following Required Fields are Missing: " + msg);
+			throw new RequiredFieldMissingException(msg);
+		}
+    	UKVisaService service = new UKVisaService();
         UKVisaMessage returnValue = service.updateEntry(id, message);
         if (returnValue == null)
         {

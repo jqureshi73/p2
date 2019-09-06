@@ -17,5 +17,11 @@ public class UKVisaExceptionController extends ResponseEntityExceptionHandler{
 	public void notFoundException(HttpServletResponse response) throws IOException{
 		response.sendError(HttpStatus.NOT_FOUND.value());
 	}
+	
+	@ExceptionHandler(value = RequiredFieldMissingException.class)
+	public void requiredFieldsException(HttpServletResponse response) throws IOException{
+		response.sendError(HttpStatus.BAD_REQUEST.value());
+	}
+	
 
 }
