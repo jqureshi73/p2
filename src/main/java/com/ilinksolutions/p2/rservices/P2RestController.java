@@ -88,7 +88,7 @@ public class P2RestController
     public ResponseEntity<UKVisaMessage> update(@RequestBody UKVisaMessage message, @PathVariable int id)
     {
     	String msg = (StringUtils.isBlank(message.getFirstName()) ? "firstName" : "");
-		msg += (msg.length() >0 ? ", " : "") + (StringUtils.isBlank(message.getLastName()) ? "lastName" : "");
+		msg += (msg.length() >0 && StringUtils.isNotBlank(message.getLastName())? ", " : "") + (StringUtils.isBlank(message.getLastName()) ? "lastName" : "");
 		if (msg.length() > 0) {
 			logger.error("Following Required Fields are Missing: " + msg);
 			throw new RequiredFieldMissingException(msg);
@@ -116,7 +116,7 @@ public class P2RestController
 	private void getRequiredFields(UKVisaMessage message) {
 		String msg = message.getId() == 0 ? "id" : "";
 		msg += (msg.length() >0 ? ", " : "") + (StringUtils.isBlank(message.getFirstName()) ? "firstName" : "");
-		msg += (msg.length() >0 ? ", " : "") + (StringUtils.isBlank(message.getLastName()) ? "lastName" : "");
+		msg += ((msg.length() >0 && StringUtils.isNotBlank(message.getLastName())) ? ", " : "") + (StringUtils.isBlank(message.getLastName()) ? "lastName" : "");
 		logger.error("Following Required Fields are Missing: " + msg);
 		throw new RequiredFieldMissingException(msg);
 	}
