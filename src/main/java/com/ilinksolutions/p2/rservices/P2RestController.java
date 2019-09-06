@@ -114,9 +114,9 @@ public class P2RestController
     
 
 	private void getRequiredFields(UKVisaMessage message) {
-		String msg = message.getId() == 0 ? "id" : "";
-		msg += (msg.length() >0 ? ", " : "") + (StringUtils.isBlank(message.getFirstName()) ? "firstName" : "");
-		msg += ((msg.length() >0 && StringUtils.isBlank(message.getLastName())) ? ", " : "") + (StringUtils.isBlank(message.getLastName()) ? "lastName" : "");
+		String msg = message.getId() == 0 ? " id" : "";
+		msg += (msg.length() >0 ? ", " : "") + (StringUtils.isBlank(message.getFirstName()) ? " firstName" : "");
+		msg += ((msg.length() >0 && StringUtils.isBlank(message.getLastName())) ? ", " : "") + (StringUtils.isBlank(message.getLastName()) ? " lastName" : "");
 		logger.error("Following Required Fields are Missing: " + msg);
 		throw new RequiredFieldMissingException(msg);
 	}
