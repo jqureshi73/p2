@@ -35,7 +35,7 @@ public class P2RestController
     	logger.info("P2RestController: readEntry: Path Variable: " + id);
         UKVisaService service = new UKVisaService();
         UKVisaMessage returnValue = service.getEntry(new Integer(id).intValue());
-        if (returnValue == null)
+        if (returnValue == null || returnValue.getFirstName() == null)
         {
         	logger.info("P2RestController: readEntry: returnValue: NULL");
             throw new EntityNotFoundException(Integer.valueOf(id));
