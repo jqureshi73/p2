@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.ilinksolutions.p2.domains.UKVisaMessage;
+import com.ilinksolutions.p2.exceptions.EntityNotFoundException;
 import com.ilinksolutions.p2.bservices.UKVisaService;
 
 import org.springframework.http.ResponseEntity;
@@ -37,7 +38,7 @@ public class P2RestController
         if (returnValue == null)
         {
         	logger.info("P2RestController: readEntry: returnValue: NULL");
-            return ResponseEntity.notFound().build();
+            throw new EntityNotFoundException(Integer.valueOf(id));
         }
         else
         {
