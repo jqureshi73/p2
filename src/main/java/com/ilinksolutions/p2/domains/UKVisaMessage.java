@@ -27,7 +27,7 @@ public class UKVisaMessage
 		this.email = email;
 	}
 
-	public Serializable getId() {
+	public int getId() {
 		return id;
 	}
 
