@@ -2,6 +2,7 @@ package com.ilinksolutions.p2.rservices;
 
 import java.net.URI;
 
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -60,7 +61,7 @@ public class P2RestController
     {
     	logger.info("registerMessage: registerMessage: Begin.");
     	logger.info("registerMessage: registerMessage: Transform: " + message.toString());
-    	if (message != null && (message.getId() == 0 || message.getFirstName() == null || message.getLastName() == null)) {
+    	if (message != null && (message.getId() == 0 || StringUtils.isBlank(message.getFirstName()) || StringUtils.isBlank(message.getLastName()))) {
     		getRequiredFields(message);
     	}
     	try {
@@ -86,8 +87,8 @@ public class P2RestController
     @PutMapping("/updatemsg/{id}")
     public ResponseEntity<UKVisaMessage> update(@RequestBody UKVisaMessage message, @PathVariable int id)
     {
-    	String msg = message.getFirstName() == null ? "firstName" : "";
-		msg += (msg.length() >0 ? ", " : "") + message.getLastName() == null ? "lastName" : "";
+    	String msg = (StringUtils.isBlank(message.getFirstName()) ? "firstName" : "");
+		msg += (msg.length() >0 ? ", " : "") + (StringUtils.isBlank(message.getLastName()) ? "lastName" : "");
 		if (msg.length() > 0) {
 			logger.error("Following Required Fields are Missing: " + msg);
 			throw new RequiredFieldMissingException(msg);
@@ -114,8 +115,8 @@ public class P2RestController
 
 	private void getRequiredFields(UKVisaMessage message) {
 		String msg = message.getId() == 0 ? "id" : "";
-		msg += (msg.length() >0 ? ", " : "") + message.getFirstName() == null ? "firstName" : "";
-		msg += (msg.length() >0 ? ", " : "") + message.getLastName() == null ? "lastName" : "";
+		msg += (msg.length() >0 ? ", " : "") + (StringUtils.isBlank(message.getFirstName()) ? "firstName" : "");
+		msg += (msg.length() >0 ? ", " : "") + (StringUtils.isBlank(message.getLastName()) ? "lastName" : "");
 		logger.error("Following Required Fields are Missing: " + msg);
 		throw new RequiredFieldMissingException(msg);
 	}
