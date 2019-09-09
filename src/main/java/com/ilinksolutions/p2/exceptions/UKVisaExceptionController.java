@@ -18,29 +18,15 @@ public class UKVisaExceptionController extends ResponseEntityExceptionHandler{
 		response.sendError(HttpStatus.NOT_FOUND.value());
 	}
 	
-	@ExceptionHandler(value = RequiredFieldMissingException.class)
+	@ExceptionHandler(value = BadRequestException.class)
 	public void requiredFieldsException(HttpServletResponse response) throws IOException{
 		response.sendError(HttpStatus.BAD_REQUEST.value());
 	}
 	
-	@ExceptionHandler(value = SaveDataException.class)
+	@ExceptionHandler(value = UnProcessableEntityException.class)
 	public void saveDataException(HttpServletResponse response) throws IOException{
 		response.sendError(HttpStatus.UNPROCESSABLE_ENTITY.value());
 	}
 	
-	@ExceptionHandler(value = UpdateDataException.class)
-	public void updateDataException(HttpServletResponse response) throws IOException{
-		response.sendError(HttpStatus.UNPROCESSABLE_ENTITY.value());
-	}
-	
-	@ExceptionHandler(value = NumbersFormatException.class)
-	public void numbersFormatException(HttpServletResponse response) throws IOException{
-		response.sendError(HttpStatus.BAD_REQUEST.value());
-	}
-	
-	@ExceptionHandler(value = EmailValidationException.class)
-	public void emailValidationException(HttpServletResponse response) throws IOException{
-		response.sendError(HttpStatus.BAD_REQUEST.value());
-	}
 	
 }
