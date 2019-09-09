@@ -5,16 +5,6 @@ import java.net.URI;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.ilinksolutions.p2.domains.UKVisaMessage;
-import com.ilinksolutions.p2.exceptions.EmailValidationException;
-import com.ilinksolutions.p2.exceptions.EntityNotFoundException;
-import com.ilinksolutions.p2.exceptions.NumbersFormatException;
-import com.ilinksolutions.p2.exceptions.RequiredFieldMissingException;
-import com.ilinksolutions.p2.exceptions.SaveDataException;
-import com.ilinksolutions.p2.exceptions.UpdateDataException;
-import com.ilinksolutions.p2.bservices.UKVisaService;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,6 +13,13 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import com.ilinksolutions.p2.bservices.UKVisaService;
+import com.ilinksolutions.p2.domains.UKVisaMessage;
+import com.ilinksolutions.p2.exceptions.BadRequestException;
+import com.ilinksolutions.p2.exceptions.EntityNotFoundException;
+import com.ilinksolutions.p2.exceptions.RequiredFieldMissingException;
+import com.ilinksolutions.p2.exceptions.UnProcessableEntityException;
 
 @RestController
 public class P2RestController
@@ -58,7 +55,7 @@ public class P2RestController
 	            throw new EntityNotFoundException(Integer.valueOf(id));
 	    	}
       } else {
-    	  throw new NumbersFormatException();
+    	  throw new BadRequestException();
       }
     }
     
@@ -70,7 +67,7 @@ public class P2RestController
     	if (message != null && (message.getId() == 0 || StringUtils.isBlank(message.getFirstName()) || StringUtils.isBlank(message.getLastName()))) {
     		getRequiredFields(message);
     	} else if (message != null && StringUtils.isNotBlank(message.getEmail()) && !isEmailValid(message.getEmail())){
-    			throw new EmailValidationException(message.getEmail());
+    			throw new BadRequestException(message.getEmail());
     		
     	}
     	try {
@@ -79,7 +76,7 @@ public class P2RestController
 	    	if (returnValue == null)
 	    	{
 	    		logger.info("registerMessage: registerMessage: id: NULL.");
-	           throw new SaveDataException(message.getFirstName());
+	           throw new UnProcessableEntityException(message.getFirstName());
 	        }
 	    	else
 	    	{
@@ -89,7 +86,7 @@ public class P2RestController
 	        }
     	} catch (Exception e) {
     		logger.error("P2RestController: registerMessage: " + e);
-            throw new SaveDataException(message.getFirstName());
+            throw new UnProcessableEntityException(message.getFirstName());
     	}
     }
     
@@ -103,7 +100,7 @@ public class P2RestController
 			logger.error("Following Required Fields are Missing: " + msg);
 			throw new RequiredFieldMissingException(msg);
 		} else if (message != null && StringUtils.isNotBlank(message.getEmail()) && !isEmailValid(message.getEmail())){
-			throw new EmailValidationException(message.getEmail());
+			throw new BadRequestException(message.getEmail());
 		}
 		
 		try {
@@ -112,7 +109,7 @@ public class P2RestController
 	        if (returnValue == null)
 	        {
 	        	logger.error("P2RestController: Failed to update the data for id: "+id );
-	        	throw new UpdateDataException(Integer.valueOf(id));
+	        	throw new UnProcessableEntityException(Integer.valueOf(id));
 	        }
 	        else
 	        {
@@ -121,7 +118,7 @@ public class P2RestController
         
 		} catch (Exception e) {
     		logger.error("P2RestController: update: " + e);
-            throw new UpdateDataException(Integer.valueOf(id));
+            throw new UnProcessableEntityException(Integer.valueOf(id));
     	}
     }
     
@@ -131,7 +128,7 @@ public class P2RestController
 		msg += (msg.length() >0 ? ", " : "") + (StringUtils.isBlank(message.getFirstName()) ? " firstName" : "");
 		msg += ((msg.length() >0 && StringUtils.isBlank(message.getLastName())) ? ", " : "") + (StringUtils.isBlank(message.getLastName()) ? " lastName" : "");
 		logger.error("Following Required Fields are Missing: " + msg);
-		throw new RequiredFieldMissingException(msg);
+		throw new BadRequestException(msg, true);
 	}
 	
 	private boolean isStringInt(String s)
