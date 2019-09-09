@@ -7,7 +7,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.ilinksolutions.p2.domains.UKVisaMessage;
+import com.ilinksolutions.p2.exceptions.EmailValidationException;
 import com.ilinksolutions.p2.exceptions.EntityNotFoundException;
+import com.ilinksolutions.p2.exceptions.NumbersFormatException;
 import com.ilinksolutions.p2.exceptions.RequiredFieldMissingException;
 import com.ilinksolutions.p2.exceptions.SaveDataException;
 import com.ilinksolutions.p2.exceptions.UpdateDataException;
@@ -37,23 +39,27 @@ public class P2RestController
     {
     	logger.info("P2RestController: readEntry: Begin.");
     	logger.info("P2RestController: readEntry: Path Variable: " + id);
-    	try {
-	        UKVisaService service = new UKVisaService();
-	        UKVisaMessage returnValue = service.getEntry(new Integer(id).intValue());
-	        if (returnValue == null || returnValue.getId() == 0)
-	        {
-	        	logger.info("P2RestController: readEntry: returnValue: NULL");
+    	if (isStringInt(id)) {
+	    	try {
+		        UKVisaService service = new UKVisaService();
+		        UKVisaMessage returnValue = service.getEntry(new Integer(id).intValue());
+		        if (returnValue == null || returnValue.getId() == 0)
+		        {
+		        	logger.info("P2RestController: readEntry: returnValue: NULL");
+		            throw new EntityNotFoundException(Integer.valueOf(id));
+		        }
+		        else
+		        {
+		            logger.info("P2RestController: readEntry: returnValue: " + returnValue.toString());
+		            return ResponseEntity.ok(returnValue);
+		        }
+	    	} catch (Exception e) {
+	    		logger.error("P2RestController: readEntry: " + e);
 	            throw new EntityNotFoundException(Integer.valueOf(id));
-	        }
-	        else
-	        {
-	            logger.info("P2RestController: readEntry: returnValue: " + returnValue.toString());
-	            return ResponseEntity.ok(returnValue);
-	        }
-    	} catch (Exception e) {
-    		logger.error("P2RestController: readEntry: " + e);
-            throw new EntityNotFoundException(Integer.valueOf(id));
-    	}
+	    	}
+      } else {
+    	  throw new NumbersFormatException();
+      }
     }
     
     @PostMapping("/savemsg")
@@ -63,6 +69,9 @@ public class P2RestController
     	logger.info("registerMessage: registerMessage: Transform: " + message.toString());
     	if (message != null && (message.getId() == 0 || StringUtils.isBlank(message.getFirstName()) || StringUtils.isBlank(message.getLastName()))) {
     		getRequiredFields(message);
+    	} else if (message != null && StringUtils.isNotBlank(message.getEmail()) && !isEmailValid(message.getEmail())){
+    			throw new EmailValidationException(message.getEmail());
+    		
     	}
     	try {
 	    	UKVisaService service = new UKVisaService();
@@ -89,10 +98,14 @@ public class P2RestController
     {
     	String msg = (StringUtils.isBlank(message.getFirstName()) ? "firstName" : "");
 		msg += (msg.length() >0 && StringUtils.isBlank(message.getLastName())? ", " : "") + (StringUtils.isBlank(message.getLastName()) ? "lastName" : "");
+		
 		if (msg.length() > 0) {
 			logger.error("Following Required Fields are Missing: " + msg);
 			throw new RequiredFieldMissingException(msg);
+		} else if (message != null && StringUtils.isNotBlank(message.getEmail()) && !isEmailValid(message.getEmail())){
+			throw new EmailValidationException(message.getEmail());
 		}
+		
 		try {
 			UKVisaService service = new UKVisaService();
 			UKVisaMessage returnValue = service.updateEntry(id, message);
@@ -119,5 +132,22 @@ public class P2RestController
 		msg += ((msg.length() >0 && StringUtils.isBlank(message.getLastName())) ? ", " : "") + (StringUtils.isBlank(message.getLastName()) ? " lastName" : "");
 		logger.error("Following Required Fields are Missing: " + msg);
 		throw new RequiredFieldMissingException(msg);
+	}
+	
+	private boolean isStringInt(String s)
+	{
+	    try
+	    {
+	        Integer.parseInt(s);
+	        return true;
+	    } catch (Exception ex)
+	    {
+	        return false;
+	    }
+	}
+	
+    private boolean isEmailValid(String email) {
+	   String regex = "^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$";
+	   return email.matches(regex);
 	}
 }

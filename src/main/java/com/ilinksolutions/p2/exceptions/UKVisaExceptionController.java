@@ -33,4 +33,14 @@ public class UKVisaExceptionController extends ResponseEntityExceptionHandler{
 		response.sendError(HttpStatus.UNPROCESSABLE_ENTITY.value());
 	}
 	
+	@ExceptionHandler(value = NumbersFormatException.class)
+	public void numbersFormatException(HttpServletResponse response) throws IOException{
+		response.sendError(HttpStatus.BAD_REQUEST.value());
+	}
+	
+	@ExceptionHandler(value = EmailValidationException.class)
+	public void emailValidationException(HttpServletResponse response) throws IOException{
+		response.sendError(HttpStatus.BAD_REQUEST.value());
+	}
+	
 }
