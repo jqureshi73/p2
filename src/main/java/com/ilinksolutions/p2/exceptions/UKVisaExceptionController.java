@@ -18,7 +18,7 @@ public class UKVisaExceptionController extends ResponseEntityExceptionHandler{
 		response.sendError(HttpStatus.NOT_FOUND.value());
 	}
 	
-	@ExceptionHandler(value = BadRequestException.class)
+	@ExceptionHandler(value = USCISException.class)
 	public void requiredFieldsException(HttpServletResponse response) throws IOException{
 		response.sendError(HttpStatus.BAD_REQUEST.value());
 	}

@@ -10,13 +10,5 @@ public class BadRequestException extends RuntimeException{
 	public BadRequestException(String error) {
 		super(error);
 	}
-	
-	/*public BadRequestException() {
-		super("ID should be in number format!");
-	}
-	
-	public BadRequestException(String missingField, boolean requiredfields) {
-    	super("Missing required field(s): "+ missingField);
-    }*/
 
 }

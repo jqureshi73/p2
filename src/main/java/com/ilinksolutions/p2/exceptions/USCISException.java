@@ -23,9 +23,6 @@ public class USCISException extends RuntimeException
 		{
 			super(message);
 			this.code = code;
-		    if (code.equals(ErrorCode.BAD_REQUEST_ERROR_CODE)) {
-		    	throw new BadRequestException(message);
-		    }
 		}
 
 		public USCISException(Throwable cause, ErrorCode code)
