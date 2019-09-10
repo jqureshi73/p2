@@ -16,7 +16,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.ilinksolutions.p2.bservices.UKVisaService;
 import com.ilinksolutions.p2.domains.UKVisaMessage;
-import com.ilinksolutions.p2.exceptions.BadRequestException;
 import com.ilinksolutions.p2.exceptions.EntityNotFoundException;
 import com.ilinksolutions.p2.exceptions.ErrorCode;
 import com.ilinksolutions.p2.exceptions.RequiredFieldMissingException;
