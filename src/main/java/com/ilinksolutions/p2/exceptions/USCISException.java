@@ -23,6 +23,13 @@ public class USCISException extends RuntimeException
 		{
 			super(message);
 			this.code = code;
+		    if (code.equals(ErrorCode.BAD_REQUEST_ERROR_CODE)) {
+		    	throw new BadRequestException(message);
+		    } else if (code.equals(ErrorCode.ENTITY_NOT_FOUND_ERROR_CODE)){
+		    	throw new EntityNotFoundException(message);
+		    } else if (code.equals(ErrorCode.UNPROCESSABLE_ENTITY_ERROR_CODE)){
+		    	throw new UnProcessableEntityException(message);
+		    }
 		}
 
 		public USCISException(Throwable cause, ErrorCode code)

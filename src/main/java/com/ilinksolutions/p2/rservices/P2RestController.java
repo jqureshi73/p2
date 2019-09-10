@@ -16,11 +16,8 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.ilinksolutions.p2.bservices.UKVisaService;
 import com.ilinksolutions.p2.domains.UKVisaMessage;
-import com.ilinksolutions.p2.exceptions.EntityNotFoundException;
 import com.ilinksolutions.p2.exceptions.ErrorCode;
-import com.ilinksolutions.p2.exceptions.RequiredFieldMissingException;
 import com.ilinksolutions.p2.exceptions.USCISException;
-import com.ilinksolutions.p2.exceptions.UnProcessableEntityException;
 
 @RestController
 public class P2RestController
@@ -44,7 +41,7 @@ public class P2RestController
 		        if (returnValue == null || returnValue.getId() == 0)
 		        {
 		        	logger.info("P2RestController: readEntry: returnValue: NULL");
-		            throw new EntityNotFoundException(Integer.valueOf(id));
+		            throw new USCISException("Entity not found for id: " +id, ErrorCode.DATABASE_ERROR_CODE);
 		        }
 		        else
 		        {
@@ -53,7 +50,7 @@ public class P2RestController
 		        }
 	    	} catch (Exception e) {
 	    		logger.error("P2RestController: readEntry: " + e);
-	            throw new EntityNotFoundException(Integer.valueOf(id));
+	            throw new USCISException("Entity not found for id: " +id, ErrorCode.DATABASE_ERROR_CODE);
 	    	}
       } else {
     	  throw new USCISException("ID should be in number format!", ErrorCode.BAD_REQUEST_ERROR_CODE);
@@ -77,7 +74,7 @@ public class P2RestController
 	    	if (returnValue == null)
 	    	{
 	    		logger.info("registerMessage: registerMessage: id: NULL.");
-	           throw new UnProcessableEntityException(message.getFirstName());
+	    		 throw new USCISException("Failed to save the data for: " + message.getFirstName(), ErrorCode.UNPROCESSABLE_ENTITY_ERROR_CODE);
 	        }
 	    	else
 	    	{
@@ -87,7 +84,7 @@ public class P2RestController
 	        }
     	} catch (Exception e) {
     		logger.error("P2RestController: registerMessage: " + e);
-            throw new UnProcessableEntityException(message.getFirstName());
+            throw new USCISException("Failed to save the data for: " + message.getFirstName(), ErrorCode.UNPROCESSABLE_ENTITY_ERROR_CODE);
     	}
     }
     
@@ -99,7 +96,7 @@ public class P2RestController
 		
 		if (msg.length() > 0) {
 			logger.error("Following Required Fields are Missing: " + msg);
-			throw new RequiredFieldMissingException(msg);
+			throw new USCISException("Missing required field(s): "+ msg, ErrorCode.BAD_REQUEST_ERROR_CODE);
 		} else if (message != null && StringUtils.isNotBlank(message.getEmail()) && !isEmailValid(message.getEmail())){
 			throw new USCISException(message.getEmail()+ " is not a valid Email.", ErrorCode.BAD_REQUEST_ERROR_CODE);
 		}
@@ -110,7 +107,7 @@ public class P2RestController
 	        if (returnValue == null)
 	        {
 	        	logger.error("P2RestController: Failed to update the data for id: "+id );
-	        	throw new UnProcessableEntityException(Integer.valueOf(id));
+	        	throw new USCISException("Failed to update the data for id: " + id, ErrorCode.UNPROCESSABLE_ENTITY_ERROR_CODE);
 	        }
 	        else
 	        {
@@ -119,7 +116,7 @@ public class P2RestController
         
 		} catch (Exception e) {
     		logger.error("P2RestController: update: " + e);
-            throw new UnProcessableEntityException(Integer.valueOf(id));
+    		throw new USCISException("Failed to update the data for id: " + id, ErrorCode.UNPROCESSABLE_ENTITY_ERROR_CODE);
     	}
     }
     

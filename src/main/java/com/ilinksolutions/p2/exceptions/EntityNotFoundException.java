@@ -7,7 +7,7 @@ import org.springframework.http.HttpStatus;
 public class EntityNotFoundException extends RuntimeException{
 	private static final long serialVersionUID = 1L;
 	
-    public EntityNotFoundException(Integer id) {
-    	super("Entity not found for id: " + id);
+    public EntityNotFoundException(String error) {
+    	super(error);
     }
 }
