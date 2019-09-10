@@ -7,16 +7,16 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 public class BadRequestException extends RuntimeException{
 	private static final long serialVersionUID = 1L;
 	
-	public BadRequestException(String email) {
-		super(email + " is not a valid Email.");
+	public BadRequestException(String error) {
+		super(error);
 	}
 	
-	public BadRequestException() {
+	/*public BadRequestException() {
 		super("ID should be in number format!");
 	}
 	
 	public BadRequestException(String missingField, boolean requiredfields) {
     	super("Missing required field(s): "+ missingField);
-    }
+    }*/
 
 }

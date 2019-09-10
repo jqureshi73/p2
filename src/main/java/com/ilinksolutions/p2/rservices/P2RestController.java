@@ -18,7 +18,9 @@ import com.ilinksolutions.p2.bservices.UKVisaService;
 import com.ilinksolutions.p2.domains.UKVisaMessage;
 import com.ilinksolutions.p2.exceptions.BadRequestException;
 import com.ilinksolutions.p2.exceptions.EntityNotFoundException;
+import com.ilinksolutions.p2.exceptions.ErrorCode;
 import com.ilinksolutions.p2.exceptions.RequiredFieldMissingException;
+import com.ilinksolutions.p2.exceptions.USCISException;
 import com.ilinksolutions.p2.exceptions.UnProcessableEntityException;
 
 @RestController
@@ -32,7 +34,7 @@ public class P2RestController
 	}
 	
     @GetMapping("/getmsg/{id}")
-    public ResponseEntity<UKVisaMessage> readEntry(@PathVariable String id)
+    public ResponseEntity<UKVisaMessage> readEntry(@PathVariable String id) 
     {
     	logger.info("P2RestController: readEntry: Begin.");
     	logger.info("P2RestController: readEntry: Path Variable: " + id);
@@ -55,7 +57,7 @@ public class P2RestController
 	            throw new EntityNotFoundException(Integer.valueOf(id));
 	    	}
       } else {
-    	  throw new BadRequestException();
+    	  throw new USCISException("ID should be in number format!", ErrorCode.BAD_REQUEST_ERROR_CODE);
       }
     }
     
@@ -67,7 +69,7 @@ public class P2RestController
     	if (message != null && (message.getId() == 0 || StringUtils.isBlank(message.getFirstName()) || StringUtils.isBlank(message.getLastName()))) {
     		getRequiredFields(message);
     	} else if (message != null && StringUtils.isNotBlank(message.getEmail()) && !isEmailValid(message.getEmail())){
-    			throw new BadRequestException(message.getEmail());
+    			throw new USCISException(message.getEmail()+ " is not a valid Email.", ErrorCode.BAD_REQUEST_ERROR_CODE);
     		
     	}
     	try {
@@ -100,7 +102,7 @@ public class P2RestController
 			logger.error("Following Required Fields are Missing: " + msg);
 			throw new RequiredFieldMissingException(msg);
 		} else if (message != null && StringUtils.isNotBlank(message.getEmail()) && !isEmailValid(message.getEmail())){
-			throw new BadRequestException(message.getEmail());
+			throw new USCISException(message.getEmail()+ " is not a valid Email.", ErrorCode.BAD_REQUEST_ERROR_CODE);
 		}
 		
 		try {
@@ -128,7 +130,7 @@ public class P2RestController
 		msg += (msg.length() >0 ? ", " : "") + (StringUtils.isBlank(message.getFirstName()) ? " firstName" : "");
 		msg += ((msg.length() >0 && StringUtils.isBlank(message.getLastName())) ? ", " : "") + (StringUtils.isBlank(message.getLastName()) ? " lastName" : "");
 		logger.error("Following Required Fields are Missing: " + msg);
-		throw new BadRequestException(msg, true);
+		throw new USCISException("Missing required field(s): "+ msg, ErrorCode.BAD_REQUEST_ERROR_CODE);
 	}
 	
 	private boolean isStringInt(String s)
