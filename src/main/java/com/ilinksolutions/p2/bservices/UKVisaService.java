@@ -54,7 +54,7 @@ public class UKVisaService
         String subject = "Re: UK VISA Application: Submission Added.";
         try
         {
-            UKVisaMessage returnValue = dao.save(message);
+            //UKVisaMessage returnValue = dao.save(message);
             String messageString = "{\"id\": " + message.getId() + "," +
                     "\"firstName\": \"" + message.getFirstName() + "\"," +
                     "\"lastName\": \"" + message.getLastName() + "\"," +
@@ -79,7 +79,7 @@ public class UKVisaService
                 logger.info("Output from REST service API: " + output);
             }
             httpConnection.disconnect();
-            return returnValue;
+            //return returnValue;
         }
         catch (MalformedURLException e)
         {
