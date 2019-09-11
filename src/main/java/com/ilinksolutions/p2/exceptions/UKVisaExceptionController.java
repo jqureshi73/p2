@@ -29,4 +29,11 @@ public class UKVisaExceptionController extends ResponseEntityExceptionHandler{
 	}
 	
 	
+	
+	@ExceptionHandler(value = EmailException.class)
+	public void emailException(HttpServletResponse response) throws IOException{
+		response.sendError(ErrorCode.EMAIL_ERROR_CODE.getLevelCode() );
+	}
+	
+	
 }

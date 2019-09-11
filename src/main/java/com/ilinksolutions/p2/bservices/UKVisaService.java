@@ -15,6 +15,8 @@ import org.slf4j.LoggerFactory;
 import com.ilinksolutions.p2.data.UKVisaDAO;
 import com.ilinksolutions.p2.data.impl.UKVisaDAOImpl;
 import com.ilinksolutions.p2.domains.UKVisaMessage;
+import com.ilinksolutions.p2.exceptions.ErrorCode;
+import com.ilinksolutions.p2.exceptions.USCISException;
 
 /**
  *
@@ -70,7 +72,7 @@ public class UKVisaService
             oStream.flush();
             if (httpConnection.getResponseCode() != 200)
             {
-                throw new RuntimeException("Unsuccessful: Error Code: " + httpConnection.getResponseCode());
+                throw new  USCISException("Email Services Error: Error Code: " + httpConnection.getResponseCode(), ErrorCode.EMAIL_ERROR_CODE);
             }
             BufferedReader br = new BufferedReader(new InputStreamReader((httpConnection.getInputStream())));
             String output;
@@ -83,11 +85,13 @@ public class UKVisaService
         }
         catch (MalformedURLException e)
         {
-            e.printStackTrace();
+            logger.error("Error from Email Service: " + e);
+            throw new  USCISException(e.getMessage(), ErrorCode.EMAIL_ERROR_CODE);
         }
         catch (IOException e)
         {
-            e.printStackTrace();
+        	logger.error("Error from Email Service: " + e);
+            throw new  USCISException(e.getMessage(), ErrorCode.EMAIL_ERROR_CODE);
         }
 		return message;
     }

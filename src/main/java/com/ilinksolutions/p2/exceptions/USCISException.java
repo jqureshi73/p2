@@ -29,6 +29,8 @@ public class USCISException extends RuntimeException
 		    	throw new EntityNotFoundException(message);
 		    } else if (code.equals(ErrorCode.UNPROCESSABLE_ENTITY_ERROR_CODE)){
 		    	throw new UnProcessableEntityException(message);
+		    } else if (code.equals(ErrorCode.EMAIL_ERROR_CODE)){
+		    	throw new EmailException(message);
 		    }
 		}
 
