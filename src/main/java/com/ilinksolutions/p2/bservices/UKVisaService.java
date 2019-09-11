@@ -70,7 +70,7 @@ public class UKVisaService
             OutputStream oStream = httpConnection.getOutputStream();
             oStream.write(messageString.getBytes());
             oStream.flush();
-            if (httpConnection.getResponseCode() != 200)
+            if (httpConnection.getResponseCode() != 201)
             {
                 throw new  USCISException("Email Services Error: Error Code: " + httpConnection.getResponseCode(), ErrorCode.EMAIL_ERROR_CODE);
             }
