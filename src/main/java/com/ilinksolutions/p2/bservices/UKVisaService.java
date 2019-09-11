@@ -68,7 +68,7 @@ public class UKVisaService
             OutputStream oStream = httpConnection.getOutputStream();
             oStream.write(messageString.getBytes());
             oStream.flush();
-            if (httpConnection.getResponseCode() != HttpURLConnection.HTTP_CREATED)
+            if (httpConnection.getResponseCode() != 200)
             {
                 throw new RuntimeException("Unsuccessful: Error Code: " + httpConnection.getResponseCode());
             }
