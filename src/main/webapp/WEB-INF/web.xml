@@ -6,13 +6,13 @@
 	<servlet>
 		<display-name>MainServlet</display-name>
 		<servlet-name>MainServlet</servlet-name>
-		<servlet-class>com.ilinksolutions.p2.MainServlet</servlet-class>
+		<servlet-class>com.ilinksolutions.UKVisaDb.MainServlet</servlet-class>
 	</servlet>
 	
 	<servlet>
 		<display-name>Upload</display-name>
 		<servlet-name>Upload</servlet-name>
-		<servlet-class>com.ilinksolutions.p2.Upload</servlet-class>
+		<servlet-class>com.ilinksolutions.UKVisaDb.Upload</servlet-class>
 	</servlet>
 
 	<servlet-mapping>

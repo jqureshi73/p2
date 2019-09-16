@@ -1,4 +1,4 @@
-package com.ilinksolutions.p2.exceptions;
+package com.ilinksolutions.UKVisaDb.exceptions;
 
 import java.util.List;
 import java.util.ArrayList;

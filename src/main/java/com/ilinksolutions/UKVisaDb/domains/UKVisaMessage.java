@@ -1,4 +1,4 @@
-package com.ilinksolutions.p2.domains;
+package com.ilinksolutions.UKVisaDb.domains;
 
 import java.io.Serializable;
 

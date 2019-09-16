@@ -1,4 +1,4 @@
-package com.ilinksolutions.p2;
+package com.ilinksolutions.UKVisaDb;
 
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;

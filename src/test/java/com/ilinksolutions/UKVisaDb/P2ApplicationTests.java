@@ -1,4 +1,4 @@
-package com.ilinksolutions.p2;
+package com.ilinksolutions.UKVisaDb;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

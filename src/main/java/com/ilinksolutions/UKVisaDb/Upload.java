@@ -1,4 +1,4 @@
-package com.ilinksolutions.p2;
+package com.ilinksolutions.UKVisaDb;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -13,7 +13,7 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.ilinksolutions.p2.utils.AES256Manager;
+import com.ilinksolutions.UKVisaDb.utils.AES256Manager;
 
 import java.io.BufferedReader;
 import java.io.IOException;

@@ -1,4 +1,4 @@
-package com.ilinksolutions.p2.data.impl;
+package com.ilinksolutions.UKVisaDb.data.impl;
 
 import java.sql.*;
 import java.util.List;
@@ -14,8 +14,8 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.naming.NameNotFoundException;
 
-import com.ilinksolutions.p2.data.UKVisaDAO;
-import com.ilinksolutions.p2.domains.UKVisaMessage;
+import com.ilinksolutions.UKVisaDb.data.UKVisaDAO;
+import com.ilinksolutions.UKVisaDb.domains.UKVisaMessage;
 
 public class UKVisaDAOImpl implements UKVisaDAO
 {

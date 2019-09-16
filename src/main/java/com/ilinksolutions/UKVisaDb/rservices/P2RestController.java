@@ -1,4 +1,4 @@
-package com.ilinksolutions.p2.rservices;
+package com.ilinksolutions.UKVisaDb.rservices;
 
 import java.net.URI;
 
@@ -14,10 +14,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.ilinksolutions.p2.bservices.UKVisaService;
-import com.ilinksolutions.p2.domains.UKVisaMessage;
-import com.ilinksolutions.p2.exceptions.ErrorCode;
-import com.ilinksolutions.p2.exceptions.USCISException;
+import com.ilinksolutions.UKVisaDb.bservices.UKVisaService;
+import com.ilinksolutions.UKVisaDb.domains.UKVisaMessage;
+import com.ilinksolutions.UKVisaDb.exceptions.ErrorCode;
+import com.ilinksolutions.UKVisaDb.exceptions.USCISException;
 
 @RestController
 public class P2RestController

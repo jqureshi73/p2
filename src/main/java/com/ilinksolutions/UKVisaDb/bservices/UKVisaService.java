@@ -1,4 +1,4 @@
-package com.ilinksolutions.p2.bservices;
+package com.ilinksolutions.UKVisaDb.bservices;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -12,11 +12,11 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.ilinksolutions.p2.data.UKVisaDAO;
-import com.ilinksolutions.p2.data.impl.UKVisaDAOImpl;
-import com.ilinksolutions.p2.domains.UKVisaMessage;
-import com.ilinksolutions.p2.exceptions.ErrorCode;
-import com.ilinksolutions.p2.exceptions.USCISException;
+import com.ilinksolutions.UKVisaDb.data.UKVisaDAO;
+import com.ilinksolutions.UKVisaDb.data.impl.UKVisaDAOImpl;
+import com.ilinksolutions.UKVisaDb.domains.UKVisaMessage;
+import com.ilinksolutions.UKVisaDb.exceptions.ErrorCode;
+import com.ilinksolutions.UKVisaDb.exceptions.USCISException;
 
 /**
  *

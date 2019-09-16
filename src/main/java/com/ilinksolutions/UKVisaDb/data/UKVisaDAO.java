@@ -1,7 +1,8 @@
-package com.ilinksolutions.p2.data;
+package com.ilinksolutions.UKVisaDb.data;
 
 import java.util.List;
-import com.ilinksolutions.p2.domains.UKVisaMessage;
+
+import com.ilinksolutions.UKVisaDb.domains.UKVisaMessage;
 
 /**
  *

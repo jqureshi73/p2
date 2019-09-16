@@ -10,9 +10,9 @@
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.ilinksolutions</groupId>
-	<artifactId>p2</artifactId>
+	<artifactId>UKVisaDb</artifactId>
 	<packaging>war</packaging>
-	<name>p2</name>
+	<name>UKVisaDb</name>
 	<description>Demo project for Spring Boot</description>
 
 	<properties>
@@ -62,12 +62,12 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
-					<finalName>p2</finalName>
+					<finalName>UKVisaDb</finalName>
 					<modules>
 						<warModule>
 							<groupId>com.ilinksolutions</groupId>
-							<artifactId>p2</artifactId>
-							<bundleFileName>p2.war</bundleFileName>
+							<artifactId>UKVisaDb</artifactId>
+							<bundleFileName>UKVisaDb.war</bundleFileName>
 						</warModule>
 					</modules>
 				</configuration>

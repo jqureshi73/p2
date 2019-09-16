@@ -1,4 +1,4 @@
-package com.ilinksolutions.p2.utils;
+package com.ilinksolutions.UKVisaDb.utils;
 
 import java.io.IOException;
 import java.io.InputStream;
